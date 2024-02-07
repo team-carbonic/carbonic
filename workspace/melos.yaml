@@ -1,4 +1,4 @@
-name: workspace
+name: carbonic
 
 packages:
   - package/*
