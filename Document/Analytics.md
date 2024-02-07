@@ -1,7 +1,5 @@
 # Firebase Analytics
 
----
-
 ### GA 이벤트
 
 - Android
