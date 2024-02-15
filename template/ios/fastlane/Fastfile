@@ -1,0 +1,46 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "iOS 인증서, 프로파일 다운로드"
+  lane :certificates do
+    match(
+      type: "development",
+      app_identifier: ["com.sablue.sotwo.dev", "com.sablue.sotwo"],
+      readonly: true,
+      generate_apple_certs: false,
+    )
+    match(
+      type: "appstore",
+      app_identifier: ["com.sablue.sotwo.dev", "com.sablue.sotwo"],
+      readonly: true,
+      generate_apple_certs: false,
+    )
+  end
+
+  desc "iOS 인증서, 프로파일 생성"
+  lane :create_certificates do
+    match(
+      type: "development",
+      app_identifier: ["com.sablue.sotwo.dev", "com.sablue.sotwo"],
+    )
+    match(
+      type: "appstore",
+      app_identifier: ["com.sablue.sotwo.dev", "com.sablue.sotwo"],
+    )
+  end
+end

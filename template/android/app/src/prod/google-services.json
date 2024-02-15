@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "355706238291",
+    "firebase_url": "https://sotwo-f77f7-default-rtdb.firebaseio.com",
+    "project_id": "sotwo-f77f7",
+    "storage_bucket": "sotwo-f77f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355706238291:android:b29ae279a3a1f23996dda6",
+        "android_client_info": {
+          "package_name": "com.sablue.sotwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355706238291-gm2mi0s2sfup57brjq2fllrgs4mbdidm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sablue.sotwo",
+            "certificate_hash": "f43413ef0e96dcba017d4ce0886bb477e1365f9d"
+          }
+        },
+        {
+          "client_id": "355706238291-m6i004r1msbcnn905hc0og5dcdakj98m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARFfYacTZAtr_ALNVku7_l-thpq1-a0Ws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "355706238291-m6i004r1msbcnn905hc0og5dcdakj98m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "355706238291-6v369382m2lv4rrt727gf6efnc7cf1h9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sablue.sotwo",
+                "app_store_id": "1558615529"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

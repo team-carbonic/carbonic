@@ -1,0 +1,212 @@
+options:
+  size: 1x
+
+# image: fischerscode/flutter:3.16.8
+
+pipelines:
+  custom:
+    app-build-and-deploy:
+      - variables:
+        - name: APP_VERSION
+        - name: APP_BUILD_ENVIRONMENT
+          default: stage
+          allowed-values:
+            - dev
+            - stage
+            - prod
+        - name: AOS_BUILD_MODE
+          default: release
+          allowed-values:
+            - debug
+            - release
+        - name: FIREBASE_TESTER_GROUPS
+          default: 앱팀,사내-테스터
+        - name: BUILD_IOS
+          default: true
+          allowed-values:
+            - true
+            - false
+        - name: BUILD_AOS
+          default: true
+          allowed-values:
+            - true
+            - false
+        - name: FLUTTER_VERSION
+          default: 3.16.8
+          allowed-values:
+            - 3.13.8
+            - 3.16.8
+
+      - step:
+          runs-on:
+            - self.hosted
+            - macos
+          script:
+            # 함수 세팅
+            - |
+              function echorun() {
+                echo "[run] $@"
+                $@
+              }
+
+            # Bitbucket Pipeline의 auto increasing build number를 build number로 사용.
+            - APP_BUILD_NUMBER=$(($BITBUCKET_BUILD_NUMBER + 1000))
+
+            # 빌드 프로세스 시작 슬랙 메시지 전송
+            - |
+              set +e
+              curl -X POST -H 'Content-type: application/json' -d "{
+                \"text\": \"$APP_BUILD_ENVIRONMENT-$APP_VERSION+$APP_BUILD_NUMBER 빌드 및 배포 프로세스 시작\"
+              }" "$SLACK_WEBHOOK_URL"
+              set -e
+
+            # 일반 변수 설정
+            - |
+              PROJECT_ROOT_PATH=$PWD
+              AOS_BUILD_VARIANT=$APP_BUILD_ENVIRONMENT$(awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}' <<< "$AOS_BUILD_MODE")
+              IPA_PATH=build/ios/ipa/sotwo.ipa
+              APK_PATH=build/app/outputs/apk/$APP_BUILD_ENVIRONMENT/$AOS_BUILD_MODE/app-$APP_BUILD_ENVIRONMENT-$AOS_BUILD_MODE.apk
+              AAB_PATH=build/app/outputs/bundle/$AOS_BUILD_VARIANT/app-$APP_BUILD_ENVIRONMENT-$AOS_BUILD_MODE.aab
+              AOS_OBFUSCATE_PATH=$PROJECT_ROOT_PATH/build/app/outputs/mapping
+              IOS_OBFUSCATE_PATH=$PROJECT_ROOT_PATH/build/ios/ipa
+              DSYM_PATH=build/ios/archive
+
+            # Liapp 관련 변수 설정
+            - |
+              LIAPP_SENDER=.liapp/sender/LiappPackageSender.jar
+              LIAPP_SENDER_ENV_AOS=.liapp/sender/LiappPackageSender-android.json
+              LIAPP_SENDER_ENV_IOS=.liapp/sender/LiappPackageSender-ios.json
+              LIAPPED_PATH_IOS=.liapp/liapped.ipa
+              RESIGNED_PATH_IOS=.liapp/liapped-resigned.ipa
+              LIAPPED_PATH_APK=.liapp/liapped.apk
+              ZIPALIGNED_PATH_APK=.liapp/liapped-zipaligned.apk
+              RESIGNED_PATH_APK=.liapp/liapped-resigned.apk
+              LIAPPED_PATH_AAB=.liapp/liapped.aab
+              ANDROID_SDK_PATH=/Users/sab-x0030/Library/Android/sdk/build-tools/34.0.0
+
+            - |
+              cd /Users/sab-x0030/flutter/bin
+              git checkout $FLUTTER_VERSION
+              cd $PROJECT_ROOT_PATH
+
+            # 앱의 버전을 변경하기 위해, shell script에 권한을 부여한 후, APP_BUILD_NUMBER를 전달하여 실행
+            - |
+              chmod +x pipeline/change_version.sh
+              APP_BUILD_NUMBER=$APP_BUILD_NUMBER bash pipeline/change_version.sh
+
+            # open source license extractor 실행
+            - |
+              cd etc/open_source_license/project
+              dart pub get
+              cd $PROJECT_ROOT_PATH
+              dart run etc/open_source_license/project/lib/extractor.dart
+
+            # 외부 노출용 패치 내역 수집 및 '['에서 ']' 까지의 문자열을 제거
+            - |
+              PREV_TAG=$(git describe --tags --abbrev=0 --match="$APP_BUILD_ENVIRONMENT-*" 2>/dev/null || echo "")
+              UPDATED_HISTORY=$(git log ${PREV_TAG}..HEAD --pretty=format:"*%s*%n상세: %b"  --grep "\[u\]" 2>/dev/null || echo "" | sed 's/\[.*\]\ //g')
+
+            # sentry-cli 설치. 이미 설치돼 있으므로 생략.
+            # - |
+            #   curl -sL https://sentry.io/get-cli/ 2>/dev/null || echo "" | SENTRY_CLI_VERSION="2.26.0" sh
+
+            # ios 빌드 프로세스
+            - |
+              if [ $BUILD_IOS = true ]; then
+                EXPORT_OPTIONS_PATH=ios/ExportOptions/export_options_${APP_BUILD_ENVIRONMENT}.plist
+                echorun flutter build ipa --release --obfuscate --split-debug-info=$IOS_OBFUSCATE_PATH --flavor $APP_BUILD_ENVIRONMENT -t lib/main.$APP_BUILD_ENVIRONMENT.dart --export-options-plist=$EXPORT_OPTIONS_PATH --build-name=$APP_VERSION --build-number=$APP_BUILD_NUMBER
+
+                echorun mkdir private_keys
+                echo -n $APPSTORE_API_KEY_BASE64 | base64 --decode > private_keys/AuthKey_$APPSTORE_API_KEY_ID.p8
+
+                if [ $APP_BUILD_ENVIRONMENT = "prod" ]; then
+                  echorun java -jar $LIAPP_SENDER -i $IPA_PATH -o $LIAPPED_PATH_IOS -e $LIAPP_SENDER_ENV_IOS
+
+                  echorun cd .liapp
+                  echorun bash Ios-ResignPack.sh liapped.ipa
+                  echorun cd $PROJECT_ROOT_PATH
+
+                  echorun rm $IPA_PATH
+                  echorun mv $RESIGNED_PATH_IOS $IPA_PATH
+                fi
+                
+                echorun xcrun altool --upload-app --type ios -f $IPA_PATH --apiKey $APPSTORE_API_KEY_ID --apiIssuer $APPSTORE_ISSUER_ID
+
+                sentry-cli debug-files upload --auth-token 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 \
+                --include-sources \
+                --org seoul-auction-blue \
+                --project sotwo \
+                $DSYM_PATH
+              fi
+
+            # aos 빌드 프로세스
+            # aab 파일은 resign 성공시, 해당 파일이 변경됨.
+            - |
+              if [ $BUILD_AOS = true ]; then
+                AOS_KEY_FILE_NAME=key.jks
+                echo -n $AOS_KEY_BASE64 | base64 --decode > android/$AOS_KEY_FILE_NAME
+
+                echo "storeFile=../$AOS_KEY_FILE_NAME
+                storePassword=$AOS_KEY_PASSWORD
+                keyPassword=$AOS_KEY_PASSWORD
+                keyAlias=$AOS_KEY_ALIAS" > android/key.properties
+
+                echorun flutter build apk --$AOS_BUILD_MODE --obfuscate --split-debug-info=$AOS_OBFUSCATE_PATH --flavor $APP_BUILD_ENVIRONMENT -t lib/main.$APP_BUILD_ENVIRONMENT.dart
+
+                if [ $APP_BUILD_ENVIRONMENT = "prod" ]; then
+                  echorun java -jar $LIAPP_SENDER -i $APK_PATH -o $LIAPPED_PATH_APK -e $LIAPP_SENDER_ENV_AOS
+
+                  echorun cd $ANDROID_SDK_PATH
+                  echorun ./zipalign -f -v 4 $PROJECT_ROOT_PATH/$LIAPPED_PATH_APK $PROJECT_ROOT_PATH/$ZIPALIGNED_PATH_APK
+                  echorun java -jar lib/apksigner.jar sign --out $PROJECT_ROOT_PATH/$RESIGNED_PATH_APK --ks $PROJECT_ROOT_PATH/android/$AOS_KEY_FILE_NAME --ks-key-alias xxblue --ks-pass pass:xxblue1! $PROJECT_ROOT_PATH/$ZIPALIGNED_PATH_APK
+                  echorun cd $PROJECT_ROOT_PATH
+
+                  echorun rm $LIAPPED_PATH_APK
+                  echorun rm $ZIPALIGNED_PATH_APK
+                  echorun rm $APK_PATH
+                  echorun mv $RESIGNED_PATH_APK $APK_PATH
+                fi
+
+                if [ $APP_BUILD_ENVIRONMENT = "dev" ]; then
+                  FIREBASE_APP_ID_AOS=$AOS_FIREBASE_APP_ID_DEV;
+                elif [ $APP_BUILD_ENVIRONMENT = "stage" ]; then
+                  FIREBASE_APP_ID_AOS=$AOS_FIREBASE_APP_ID_STAGE;
+                elif [ $APP_BUILD_ENVIRONMENT = "prod" ]; then
+                  FIREBASE_APP_ID_AOS=$AOS_FIREBASE_APP_ID_PROD;
+                fi
+
+                if [ $APP_BUILD_ENVIRONMENT = "prod" ]; then
+                  echorun flutter build appbundle --$AOS_BUILD_MODE --obfuscate --split-debug-info=$AOS_OBFUSCATE_PATH --flavor $APP_BUILD_ENVIRONMENT -t lib/main.$APP_BUILD_ENVIRONMENT.dart
+                  echorun java -jar $LIAPP_SENDER -i $AAB_PATH -o $LIAPPED_PATH_AAB -e $LIAPP_SENDER_ENV_AOS
+                  echorun jarsigner -sigalg SHA256withRSA -digestalg SHA-256 -keystore android/$AOS_KEY_FILE_NAME -storepass xxblue1! $LIAPPED_PATH_AAB xxblue
+
+                  echorun rm $AAB_PATH
+                  echorun mv $LIAPPED_PATH_AAB $AAB_PATH
+                fi
+            
+                if [ $APP_BUILD_ENVIRONMENT = "prod" ]; then
+                  AOS_PATH=$AAB_PATH
+                else
+                  AOS_PATH=$APK_PATH
+                fi
+
+                firebase appdistribution:distribute --app $FIREBASE_APP_ID_AOS --groups $FIREBASE_TESTER_GROUPS $AOS_PATH --release-notes "$UPDATED_HISTORY"
+
+                flutter packages pub run sentry_dart_plugin
+              fi
+
+            - |
+              set +e
+              curl -X POST -H 'Content-type: application/json' -d "{
+                \"text\": \"*$APP_BUILD_ENVIRONMENT-$APP_VERSION+$APP_BUILD_NUMBER 빌드 및 배포 완료*\n\n$UPDATED_HISTORY\"
+              }" "$SLACK_WEBHOOK_URL"
+              set -e
+
+            - |
+              git tag -d $APP_BUILD_ENVIRONMENT-$APP_VERSION+$APP_BUILD_NUMBER || true
+              git tag $APP_BUILD_ENVIRONMENT-$APP_VERSION+$APP_BUILD_NUMBER
+              git remote set-url origin ${BITBUCKET_GIT_SSH_ORIGIN}
+              git push --tags
+
+          artifacts:
+              - build/app/outputs/apk/**

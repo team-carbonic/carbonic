@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "648462857309",
+    "project_id": "sotwo-app-dev-44db3",
+    "storage_bucket": "sotwo-app-dev-44db3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648462857309:android:745790447d05394338c9b4",
+        "android_client_info": {
+          "package_name": "com.sablue.sotwo.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcIXsLOWXbb_BeSCceBFwfZGIhvSGMLwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
