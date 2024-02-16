@@ -1,6 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
+part of carbonic_ui_kit;
 
 const showHitBox = false;
 

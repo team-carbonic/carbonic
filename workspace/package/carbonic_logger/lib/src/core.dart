@@ -1,8 +1,8 @@
 import 'dart:developer' as developer;
 import 'dart:math';
 
-import 'package:carbonic_logger/core/custom_trace.dart';
-import 'package:carbonic_logger/core/log_color_tag.dart';
+import 'package:carbonic_logger/src/custom_trace.dart';
+import 'package:carbonic_logger/src/log_color_tag.dart';
 import 'package:flutter/foundation.dart';
 
 /// 로그 수준에 대한 열거형으로, 로그 수준에 맞는 색상, 텍스트 효과 등을 가져올 수 있다.
@@ -62,19 +62,6 @@ enum LogLevel {
   }
 }
 
-enum LogCategory {
-  test,
-  network,
-  analytics,
-  notification,
-  localStorage,
-  permission,
-  securityKeypad,
-
-  utility,
-  ;
-}
-
 /// ### 설명
 /// 개발 편의를 위해 로깅이 필요할 때 [LoggerCore]의 함수들을 이용한다.
 /// - [categoryFilter] : 출력될 로그 필터링
@@ -100,7 +87,7 @@ class LoggerCore {
   static final LogColorTag _resetColorTag = LogColorCode.reset.toTag();
 
   /// 해당 값이 null이 아니면 특정 카테고리의 로그만 출력한다.
-  static LogCategory? categoryFilter;
+  static String? categoryFilter;
 
   /// 터미널에 [content]에 해당하는 로그를 출력한다.
   /// Release 빌드일 때는 Sentry 측에 예외와 호출스택 정보만 전달하고, 터미널 출력부는 실행되지 않는다.
@@ -108,7 +95,7 @@ class LoggerCore {
     required final LogLevel logLevel,
     final String? content,
     final String? title,
-    final LogCategory? category,
+    final String? category,
     final Object? exception,
     final StackTrace? stackTrace,
     final int maxStackTraceLine = 20,
@@ -160,7 +147,7 @@ class LoggerCore {
         // 시간 표시
         ' $_resetColorTag$titleColorTag${DateTime.now()}'
         // 카테고리 표시
-        '${category == null ? '' : ' [ $_resetColorTag$titleColorTag${category.name} ]'}'
+        '${category == null ? '' : ' [ $_resetColorTag$titleColorTag$category ]'}'
         // 함수 이름, 파일 이름 표시
         '${customTrace == null ? '' : "$_resetColorTag$titleColorTag from '${customTrace.functionName}()' of '${customTrace.fileName}'"}'
         // 제목 표시

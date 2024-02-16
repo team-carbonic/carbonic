@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+part of carbonic_ui_kit;
 
 class SpacedRow extends StatelessWidget {
   final double? spacing;

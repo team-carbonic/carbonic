@@ -10,3 +10,9 @@ packages:
 command:
   version:
     branch: main
+
+  bootstrap:
+    dev_dependencies:
+      build_runner: ^2.4.8
+    hooks:
+      post: dart pub run build_runner build --delete-conflicting-outputs

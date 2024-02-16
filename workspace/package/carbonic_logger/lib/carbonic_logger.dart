@@ -1,7 +1,7 @@
 library carbonic_logger;
 
-import 'package:carbonic_logger/core/core.dart';
-import 'package:carbonic_logger/core/custom_trace.dart';
+import 'package:carbonic_logger/src/core.dart';
+import 'package:carbonic_logger/src/custom_trace.dart';
 import 'package:flutter/widgets.dart';
 
 /// ### 설명
@@ -67,7 +67,7 @@ class Logger {
       LoggerCore.log(
         logLevel: LogLevel.test,
         content: content,
-        category: LogCategory.test,
+        category: 'test',
         exception: exception,
         stackTrace: stackTrace,
         maxStackTraceLine: maxStackTraceLine,
@@ -84,7 +84,7 @@ class Logger {
   static void info({
     final String? title,
     final String? content,
-    final LogCategory? category,
+    final String? category,
     final Object? exception,
     final StackTrace? stackTrace,
     final int maxStackTraceLine = 20,
@@ -121,7 +121,7 @@ class Logger {
   static void warning({
     final String? title,
     final String? content,
-    final LogCategory? category,
+    final String? category,
     final Object? exception,
     final StackTrace? stackTrace,
     final int maxStackTraceLine = 20,
@@ -158,7 +158,7 @@ class Logger {
   static void error({
     final String? title,
     final String? content,
-    final LogCategory? category,
+    final String? category,
     final Object? exception,
     final StackTrace? stackTrace,
     final int maxStackTraceLine = 20,

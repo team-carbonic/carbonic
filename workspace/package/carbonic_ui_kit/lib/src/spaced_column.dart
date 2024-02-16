@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+part of carbonic_ui_kit;
 
 /// [separator]와 [spacing] 둘 중 하나만 사용이 가능하다.
 class SpacedColumn extends StatelessWidget {

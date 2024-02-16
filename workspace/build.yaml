@@ -1,0 +1,34 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        options:
+          generic_argument_factories: true
+          to_json: false
+      json_serializable:
+        options:
+          # Options configure how source code is generated for every
+          # `@JsonSerializable`-annotated class in the package.
+          #
+          # The default value for each is listed.
+          # any_map: false
+          # checked: false
+          # constructor: ""
+          # create_factory: true
+          # create_field_map: false
+          # create_per_field_to_json: false
+          # create_to_json: false
+          # disallow_unrecognized_keys: false
+          explicit_to_json: true
+          # field_rename: none
+          generic_argument_factories: true
+          # ignore_unannotated: false
+          # include_if_null: true
+
+global_options:
+  freezed:
+    runs_before:
+      - json_serializable
+  json_serializable:
+    runs_before:
+      - retrofit_generator

@@ -1,10 +1,10 @@
-name: carbonic_network
-description: "A new Flutter package project."
+name: carbonic_utility
+description: "carbonic_utility"
 version: 0.0.1
-homepage:
+homepage: "https://github.com/marsg6/carbonic"
 
 environment:
-  sdk: '>=3.2.5 <4.0.0'
+  sdk: ">=3.2.5 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
