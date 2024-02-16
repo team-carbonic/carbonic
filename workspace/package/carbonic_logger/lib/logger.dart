@@ -1,6 +1,8 @@
+library carbonic_logger;
+
+import 'package:carbonic_logger/core/core.dart';
+import 'package:carbonic_logger/core/custom_trace.dart';
 import 'package:flutter/widgets.dart';
-import 'package:logger/core/core.dart';
-import 'package:logger/core/custom_trace.dart';
 
 /// ### 설명
 /// - 릴리즈 모드일때 터미널 출력 로직은 실행되지 않는다.

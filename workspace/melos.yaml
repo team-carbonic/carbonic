@@ -1,5 +1,12 @@
+# Melos Configuration: https://melos.invertase.dev/configuration/overview
+
 name: carbonic
 
+repository: https://github.com/marsg6/carbonic
+
 packages:
-  - package/*
-  - project/*
+  - package/**
+
+command:
+  version:
+    branch: main
