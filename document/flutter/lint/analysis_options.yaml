@@ -1,0 +1,338 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  # The lint rules applied to this project can be customized in the
+  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
+  # included above or to enable additional rules. A list of all available lints
+  # and their documentation is published at
+  # https://dart-lang.github.io/linter/lints/index.html.
+  #
+  # Instead of disabling a lint rule for the entire project in the
+  # section below, it can also be suppressed for a single line of code
+  # or a specific dart file by using the `// ignore: name_of_lint` and
+  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # producing the lint.
+
+  # * [A] : has auto fix
+  rules:
+    always_use_package_imports: true # [A] 항상 package명을 포함한 절대경로를 사용할 것. 그렇지 않을 경우, 경로를 변경할 때 자동 refactoring되지 않음.
+    avoid_dynamic_calls: true # dynamic 타입으로부터의 호출을 허용하지 않음. 컴파일 타임에 에러를 검증할 수 없고, 코드를 분석하는 데 방해가 됨.
+    avoid_empty_else: true # [A] else에 빈 블록을 허용하지 않음. 빈 블록은 코드를 읽기 어렵게 만들고, 실수를 유발할 수 있음.
+    avoid_print: true # [A] 별도의 로깅 시스템을 사용할 것.
+    avoid_relative_lib_imports: true # [A] 항상 절대경로를 사용할 것. 상대 경로를 사용하면 파일 경로가 변경되었을 때 문제가 발생함.
+    avoid_slow_async_io: true # 몇몇 라이브러리의 async 함수는 sync 함수보다 훨씬 느림.
+    avoid_type_to_string: true # development mode와 release mode의 toString() 결과가 다름.
+    avoid_types_as_parameter_names: true # [A] type을 파라미터 이름으로 사용하지 말 것.
+    avoid_web_libraries_in_flutter: true # fiet는 web-only library를 사용할 일이 없음.
+    cancel_subscriptions: true # 사용한 자원은 반드시 해제해줄 것.
+    close_sinks: true # 사용한 자원은 반드시 해제해줄 것.
+    collection_methods_unrelated_type: true # collection의 method는 반드시 연관된 타입으로만 호출할 것.
+    comment_references: true # 주석에 포함된 reference는 해당 영역에 존재해야 함.
+    control_flow_in_finally: true # finally 블록이 control flow를 포함할 경우, flow를 파악하기 어려움.
+    deprecated_member_use_from_same_package: true # deprecated된 멤버는 얼른 고칠 것.
+    empty_statements: true # [A] empty statement는 임시 코드.
+    hash_and_equals: true # [A] 둘 모두 구현해야 함.
+    invalid_case_patterns: true # [A] dart 3.0부터 switch문에서의 case pattern 매칭 방식이 변경됨. 일종의 deep equality가 보장되어야 함.
+    literal_only_boolean_expressions: true # literal boolean을 사용한 expression은 테스트 코드로만 사용할 것.
+    no_adjacent_strings_in_list: true # adjacent string은 '+'와 동일한 결과를 반환하는데, list에서는 ','를 누락한 것으로 오해할 수 있음.
+    no_duplicate_case_values: true # [A] 중복 case는 불필요한 코드.
+    no_logic_in_create_state: true # createState 함수는 override하지 말 것.
+    # 3.1.0
+    # no_self_assignments: true # 자기 자신을 할당하지 말 것.
+    # no_wildcard_variable_uses: true # 사용하지 않기로 한 변수는 사용하지 말 것.
+    prefer_relative_imports: false
+    prefer_void_to_null: true # [A] Null 타입 대신 void를 사용할 것.
+    test_types_in_equals: true # == 함수 내에서 as casting을 사용하지 말 것.
+    throw_in_finally: true # finally block 내에서 throw를 사용하면 unexpected behavior를 유발할 수 있음.
+    unnecessary_statements: true # 불필요한 statement를 사용하지 말 것.
+    unrelated_type_equality_checks: true # 서로 다른 타입에 대해 equality를 체크하지 말 것.
+    use_build_context_synchronously: true # async gap 이후의 context는 mounted 체크를 할 것.
+    use_key_in_widget_constructors: true # [A] widget의 key를 명시적으로 지정할 것.
+    valid_regexps: true # invalid한 정규식을 사용하지 말 것.
+    always_declare_return_types: true # [A] return type을 명시할 것.
+    always_put_control_body_on_new_line: true # [A] control body는 new line에 작성할 것.
+    always_put_required_named_parameters_first: false
+    always_specify_types: false # type 추론이 보다 modern함.
+    annotate_overrides: true # [A] @override annotation을 명시할 것.
+    avoid_annotating_with_dynamic: false # api가 dynamic을 사용하는 경우가 있음.
+    avoid_bool_literals_in_conditional_expressions: true # 삼항연산자에 literal boolean을 사용하지 말 것.
+    avoid_catches_without_on_clauses: false
+    avoid_classes_with_only_static_members: false # namespace로서의 class가 존재할 수 있음.
+    avoid_escaping_inner_quotes: true # [A] 가독성을 위해.
+    avoid_field_initializers_in_const_classes: true # const class에서는 getter를 사용할 것.
+    avoid_final_parameters: false
+    avoid_function_literals_in_foreach_calls: true # [A] 가독성을 위해 for_each 대신 for문을 사용할 것.
+    avoid_init_to_null: true # [A] null로 초기화는 자동 추론됨.
+    avoid_multiple_declarations_per_line: false
+    avoid_null_checks_in_equality_operators: true # [A] null은 별도의 class로 취급됨.
+    avoid_positional_boolean_parameters: false # positional boolean parameter는 가독성을 해침. 그러나 가끔 한개의 boolean parameter만 사용하는 경우가 있음.
+    avoid_redundant_argument_values: false # 테스트 코드를 위해 필요한 경우가 있음.
+    avoid_renaming_method_parameters: true # [A] 자식 클래스에서 method parameter의 이름을 변경하지 말 것.
+    avoid_return_types_on_setters: true # [A] setter는 항상 void를 반환함.
+    avoid_returning_null_for_void: true # [A] void를 반환하는 함수는 null을 반환하지 말 것.
+    avoid_returning_this: true # dart에는 cascade 문법이 있기 때문에, this를 반환하는 함수의 필요성이 없음.
+    avoid_setters_without_getters: false
+    avoid_shadowing_type_parameters: true # shadowing은 금지.
+    avoid_single_cascade_in_expression_statements: false
+    avoid_types_on_closure_parameters: true # [A] type은 자동 추론
+    await_only_futures: true # [A] await은 Future 타입에서만 사용할 것.
+    camel_case_extensions: true # naming convention
+    camel_case_types: true # naming convention
+    cascade_invocations: false # [A] cascade 사용할 수 있을 땐 사용할 것.
+    cast_nullable_to_non_nullable: true # [A] cast 제약을 강화함.
+    combinators_ordering: true # [A] alphabetical sorting.
+    constant_identifier_names: true # [A] naming convention.
+    curly_braces_in_flow_control_structures: true # [A] 가독성을 위해.
+    directives_ordering: false # [A] sorting.
+    empty_catches: true # [A] empty 블록을 지양할 것.
+    empty_constructor_bodies: true # [A] empty 블록을 지양할 것.
+    eol_at_end_of_file: true # [A]
+    exhaustive_cases: true # [A] missing case가 없는 지 확인할 것.
+    file_names: true # naming convention.
+    implementation_imports: true # 다른 패키지의 구현부를 import하지 말 것.
+    join_return_with_assignment: true # return문과 assign문을 한 번에 처리할 것.
+    library_names: true # naming convention.
+    library_prefixes: true # naming convention.
+    matching_super_parameters: true # 자식 클래스에서 super의 parameter 이름을 변경하지 말 것.
+    no_leading_underscores_for_library_prefixes: true # [A] naming convention.
+    no_leading_underscores_for_local_identifiers: true # [A] naming convention.
+    no_literal_bool_comparisons: true # [A] 가독성을 위해.
+    non_constant_identifier_names: true # [A] naming convention.
+    noop_primitive_operations: true # [A] 불필요한 primitive type의 기능 제거.
+    null_check_on_nullable_type_parameter: true # [A] T에 null check operator를 사용하지 말 것. (T가 nullable 타입일 수 있음).
+    omit_local_variable_types: true # [A] modern한 타입 추론을 사용할 것.
+    prefer_collection_literals: true # [A] 타입 추론을 사용할 것.
+    prefer_conditional_assignment: true # [A] 가독성을 위해.
+    prefer_const_constructors: true # [A] 사용할 수 있으면 const 생성자를 사용할 것.
+    prefer_const_constructors_in_immutables: true # [A] 사용할 수 있으면 const 생성자를 사용할 것.
+    prefer_const_declarations: true # [A] 가능한 경우, const 변수로 선언할 것.
+    prefer_const_literals_to_create_immutables: true # [A] 가능한 경우, const를 인자로 사용할 것.
+    prefer_contains: true # [A] contains로 체크할 수 있는 경우.
+    # prefer_expression_function_bodies: true # [A] 가능한 경우, arrow function body를 사용할 것.
+    prefer_final_fields: true # [A] 가능한 경우, final을 사용할 것.
+    prefer_final_in_for_each: true # [A] 가능한 경우, final을 사용할 것.
+    prefer_final_locals: true # [A] 가능한 경우, final을 사용할 것.
+    prefer_for_elements_to_map_fromIterable: true # [A] 가독성을 위해.
+    prefer_function_declarations_over_variables: true # [A] 함수를 변수로 할당하지 말 것.
+    prefer_generic_function_type_aliases: true # [A] modern한 typedef 사용.
+    prefer_if_elements_to_conditional_expressions: false # [A] 가독성을 위해.
+    prefer_if_null_operators: true # [A] 가독성을 위해.
+    prefer_initializing_formals: true # [A] 가독성을 위해.
+    prefer_inlined_adds: true # [A] 가독성을 위해.
+    prefer_interpolation_to_compose_strings: true # [A] 가독성을 위해.
+    prefer_is_empty: true # [A] 가독성을 위해.
+    prefer_is_not_empty: true # [A] 가독성을 위해.
+    prefer_is_not_operator: true # [A] 가독성을 위해.
+    prefer_iterable_whereType: true # [A] 가독성을 위해.
+    prefer_null_aware_method_calls: true # 가독성을 위해.
+    prefer_null_aware_operators: true # [A] 가독성을 위해.
+    prefer_single_quotes: true # [A] 내부 규칙.
+    prefer_spread_collections: true # [A] 가독성을 위해.
+    recursive_getters: true # 실수 방지용.
+    require_trailing_commas: true # [A] 가독성을 위해.
+    sort_child_properties_last: true # [A] 가독성을 위해.
+    type_annotate_public_apis: true # [A] 타입을 명시할 것.
+    type_init_formals: true # [A] 타입 추론을 사용할 것.
+    type_literal_in_constant_pattern: true # [A] case 구문에서의 '타입'과 '타입 변수'의 구분.
+    unnecessary_await_in_return: true # [A] 불필요 코드 제거.
+    unnecessary_brace_in_string_interps: true # [A] 불필요 코드 제거.
+    unnecessary_breaks: true # [A] 불필요 코드 제거.
+    unnecessary_const: true # [A] 불필요 코드 제거.
+    unnecessary_getters_setters: true # [A] 의미 없는 getter와 setter 생성 방지.
+    # unnecessary_lambdas: true # [A] 의미 없는 lambda 사용 방지.
+    unnecessary_late: true # [A] 의미 없는 late 사용 방지.
+    unnecessary_new: true # [A] 불필요 코드 제거.
+    unnecessary_null_aware_assignments: true # [A] 불필요 코드 제거.
+    unnecessary_null_aware_operator_on_extension_on_nullable: true # [A] 불필요 코드 제거.
+    unnecessary_null_checks: true # [A] 불필요 코드 제거.
+    unnecessary_null_in_if_null_operators: true # [A] 불필요 코드 제거.
+    unnecessary_nullable_for_final_variable_declarations: true # [A] 불필요 코드 제거.
+    unnecessary_overrides: true # [A] 불필요 코드 제거. 필요한 시점에 override할 것.
+    unnecessary_parenthesis: true # [A] 불필요 코드 제거.
+    unnecessary_raw_strings: true # [A] 불필요 코드 제거.
+    unnecessary_string_escapes: true # [A] 불필요 코드 제거.
+    unnecessary_string_interpolations: true # [A] 불필요 코드 제거.
+    unnecessary_this: true # [A] 불필요 코드 제거.
+    unnecessary_to_list_in_spreads: true # [A] 불필요 코드 제거.
+    use_decorated_box: true # [A] 불필요한 Container 사용 지양.
+    use_if_null_to_convert_nulls_to_bools: true # 좋은 습관 형성.
+    use_is_even_rather_than_modulo: true # 내장 함수 사용.
+    use_named_constants: true # 내장 함수 사용.
+    use_raw_strings: true # [A] raw string 사용 권장.
+    use_rethrow_when_possible: true # [A] rethrow 사용 권장.
+    use_super_parameters: true # [A] super 키워드 사용 권장.
+    void_checks: true # void 타입에 할당하지 말 것.
+    depend_on_referenced_packages: true # add된 패키지만 사용할 것.
+
+analyzer:
+  plugins:
+    - custom_lint
+
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.reflectable.dart"
+    - "lib/legacy/**"
+
+  errors:
+    always_use_package_imports: error
+    avoid_dynamic_calls: warning
+    avoid_empty_else: error
+    avoid_print: error
+    avoid_relative_lib_imports: error
+    avoid_slow_async_io: info
+    avoid_type_to_string: info
+    avoid_types_as_parameter_names: error
+    avoid_web_libraries_in_flutter: error
+    cancel_subscriptions: warning
+    close_sinks: warning
+    collection_methods_unrelated_type: warning
+    comment_references: info
+    control_flow_in_finally: error
+    deprecated_member_use_from_same_package: warning
+    empty_statements: info
+    hash_and_equals: error
+    invalid_case_patterns: error
+    literal_only_boolean_expressions: info
+    no_adjacent_strings_in_list: error
+    no_duplicate_case_values: error
+    no_logic_in_create_state: error
+    # 3.1.0
+    # no_self_assignments: error
+    # no_wildcard_variable_uses: error
+    prefer_void_to_null: error
+    test_types_in_equals: error
+    throw_in_finally: error
+    unnecessary_statements: error
+    unrelated_type_equality_checks: error
+    use_build_context_synchronously: warning
+    use_key_in_widget_constructors: error
+    valid_regexps: error
+    always_declare_return_types: error
+    always_put_control_body_on_new_line: warning
+    annotate_overrides: error
+    avoid_bool_literals_in_conditional_expressions: info
+    avoid_escaping_inner_quotes: error
+    avoid_field_initializers_in_const_classes: error
+    avoid_function_literals_in_foreach_calls: error
+    avoid_init_to_null: error
+    avoid_null_checks_in_equality_operators: error
+    # avoid_positional_boolean_parameters: warning
+    avoid_renaming_method_parameters: error
+    avoid_return_types_on_setters: error
+    avoid_returning_null_for_void: error
+    avoid_returning_this: error
+    avoid_shadowing_type_parameters: error
+    avoid_types_on_closure_parameters: error
+    await_only_futures: error
+    camel_case_extensions: error
+    camel_case_types: error
+    # cascade_invocations: info
+    cast_nullable_to_non_nullable: warning
+    combinators_ordering: error
+    constant_identifier_names: error
+    curly_braces_in_flow_control_structures: error
+    # directives_ordering: error # 폴더나 파일 이동시 자동 반영되지 않아 제거
+    empty_catches: error
+    empty_constructor_bodies: error
+    exhaustive_cases: error
+    file_names: error
+    implementation_imports: error
+    join_return_with_assignment: info
+    library_names: error
+    library_prefixes: error
+    matching_super_parameters: error
+    no_leading_underscores_for_library_prefixes: error
+    no_leading_underscores_for_local_identifiers: error
+    no_literal_bool_comparisons: warning
+    non_constant_identifier_names: error
+    noop_primitive_operations: error
+    null_check_on_nullable_type_parameter: error
+    omit_local_variable_types: error
+    prefer_collection_literals: error
+    prefer_conditional_assignment: error
+    prefer_const_constructors: error
+    prefer_const_constructors_in_immutables: error
+    prefer_const_declarations: error
+    prefer_const_literals_to_create_immutables: error
+    prefer_contains: error
+    # prefer_expression_function_bodies: info
+    prefer_final_in_for_each: error
+    prefer_final_locals: error
+    prefer_final_parameters: error
+    prefer_for_elements_to_map_fromIterable: error
+    prefer_function_declarations_over_variables: error
+    prefer_generic_function_type_aliases: error
+    # prefer_if_elements_to_conditional_expressions: error
+    prefer_if_null_operators: error
+    prefer_initializing_formals: error
+    prefer_inlined_adds: error
+    prefer_interpolation_to_compose_strings: error
+    prefer_is_empty: error
+    prefer_is_not_empty: error
+    prefer_is_not_operator: error
+    prefer_iterable_whereType: error
+    prefer_null_aware_method_calls: error
+    prefer_null_aware_operators: error
+    prefer_single_quotes: error
+    prefer_spread_collections: error
+    recursive_getters: error
+    require_trailing_commas: error
+    sort_child_properties_last: error
+    type_annotate_public_apis: error
+    type_init_formals: error
+    type_literal_in_constant_pattern: error
+    unnecessary_await_in_return: warning
+    unnecessary_brace_in_string_interps: error
+    unnecessary_breaks: error
+    unnecessary_const: error
+    unnecessary_getters_setters: error
+    # unnecessary_lambdas: error
+    unnecessary_late: error
+    unnecessary_new: error
+    unnecessary_null_aware_assignments: error
+    unnecessary_null_aware_operator_on_extension_on_nullable: error
+    unnecessary_null_checks: error
+    unnecessary_null_in_if_null_operators: error
+    unnecessary_nullable_for_final_variable_declarations: error
+    unnecessary_overrides: error
+    unnecessary_parenthesis: error
+    unnecessary_raw_strings: error
+    unnecessary_string_escapes: error
+    unnecessary_string_interpolations: error
+    unnecessary_this: error
+    unnecessary_to_list_in_spreads: error
+    use_decorated_box: error
+    use_if_null_to_convert_nulls_to_bools: warning
+    use_is_even_rather_than_modulo: error
+    use_named_constants: error
+    use_raw_strings: error
+    use_rethrow_when_possible: error
+    use_super_parameters: error
+    void_checks: error
+    depend_on_referenced_packages: error
+    dead_null_aware_expression: error
+    unused_field: warning
+    unused_element: ignore # default parameter가 있는 것도 지워버림
+    argument_type_not_assignable: error
+    map_value_type_not_assignable: warning
+    unused_import: error
+    duplicate_import: error
+    avoid_unnecessary_containers: warning
+    deprecated_member_use: warning
+    body_might_complete_normally: error
+    override_on_non_overriding_member: error
+
+    invalid_annotation_target: ignore # freezed에서 JsonKey annotation 사용시 warning 발생
+    
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options

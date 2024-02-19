@@ -1,0 +1,6 @@
+framework module KMVKeypad {
+  umbrella header "KMVKeypad.h"
+
+  export *
+  module * { export * }
+}

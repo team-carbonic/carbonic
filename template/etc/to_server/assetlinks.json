@@ -1,0 +1,22 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sablue.sotwo",
+      "sha256_cert_fingerprints": [
+        "DB:35:0B:0A:C9:A8:E3:81:77:9C:F3:42:74:06:45:CA:13:27:55:45:CB:E2:78:4E:93:B9:F6:A1:DC:DC:EB:5B"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sablue.sotwo.dev",
+      "sha256_cert_fingerprints": [
+        "DB:35:0B:0A:C9:A8:E3:81:77:9C:F3:42:74:06:45:CA:13:27:55:45:CB:E2:78:4E:93:B9:F6:A1:DC:DC:EB:5B"
+      ]
+    }
+  }
+]
