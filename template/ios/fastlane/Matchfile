@@ -1,3 +1,0 @@
-git_url("git@bitbucket.org:blueworker/blue_app_auth.git")
-storage_mode("git")
-username("tech@seoulauctionblue.com")

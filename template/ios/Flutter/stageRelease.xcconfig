@@ -1,8 +1,0 @@
-#include "Generated.xcconfig"
-
-FLUTTER_TARGET=lib/main.stage.dart
-ASSET_PREFIX=stage
-BUNDLE_NAME=SOTWO QA
-BUNDLE_DISPLAY_NAME=SOTWO QA
-APP_NAME=SOTWO QA
-ONELINK_HOST=dev-sablue.onelink.me
