@@ -49,3 +49,18 @@ app.*.map.json
 
 # Melos
 pubspec_overrides.yaml
+## Custom
+# Legacy
+legacy/*
+.firebase
+# ios의 GoogleService-Info.plist 파일은 flavor에 따라서 자동으로 생성됨
+ios/Runner/GoogleService-Info.plist
+# fastlane 실행시 자동으로 생성되는 파일
+ios/fastlane/report.xml
+# flavorizr 시행시 자동으로 생성되는 파일
+*.tmp
+*.tmp.*
+# fvm
+.fvm/
+
+custom_lint.log

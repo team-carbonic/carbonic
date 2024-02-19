@@ -60,3 +60,5 @@ ios/fastlane/report.xml
 *.tmp.*
 # fvm
 .fvm/
+
+custom_lint.log
