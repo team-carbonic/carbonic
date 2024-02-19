@@ -6,6 +6,11 @@
 
         git clone --recurse-submodules
 
+- submodule 초기화
+
+        git submodule init
+        git submodule update
+
 - submodule 변경사항 반영
 
         git submodule update --remote
