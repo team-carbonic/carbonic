@@ -27,9 +27,14 @@ migrate_working_dir/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
+
+# android & ios
+/local.properties
+*.lock
 
 # Symbolication related
 app.*.symbols
@@ -41,3 +46,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+## Custom
+# Legacy
+legacy/*
+.firebase
+# ios의 GoogleService-Info.plist 파일은 flavor에 따라서 자동으로 생성됨
+ios/Runner/GoogleService-Info.plist
+# fastlane 실행시 자동으로 생성되는 파일
+ios/fastlane/report.xml
+# flavorizr 시행시 자동으로 생성되는 파일
+*.tmp
+*.tmp.*
+# fvm
+.fvm/
