@@ -1,0 +1,9 @@
+builders:
+  storages:
+    import: "package:carbonic_local_storage_generator/src/builder.dart"
+    builder_factories: ["storages"]
+    build_extensions: { ".dart": [".storages.g.part"] }
+    build_to: cache
+    auto_apply: dependents
+    applies_builders: ["source_gen|combining_builder"]
+    # target: ":carbonic_local_storage_generator"

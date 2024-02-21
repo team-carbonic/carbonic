@@ -1,0 +1,1 @@
+# Carbonic Local Storage Generator
