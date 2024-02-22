@@ -5,7 +5,7 @@ name: carbonic
 repository: https://github.com/marsg6/carbonic
 
 packages:
-  - package/**
+  - ./**
 
 command:
   version:
@@ -15,4 +15,9 @@ command:
     dev_dependencies:
       build_runner: ^2.4.8
     hooks:
-      post: dart pub run build_runner build --delete-conflicting-outputs
+      post: dart run build_runner build --delete-conflicting-outputs
+
+scripts:
+  # 패키지 Publish 관련
+  validate: melos publish --scope="package/**" --verbose
+  upload: melos publish --scope="package/**" --no-dry-run --verbose
