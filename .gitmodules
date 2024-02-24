@@ -1,6 +1,3 @@
 [submodule "workspace/flutter/template"]
 	path = workspace/flutter/template
 	url = https://github.com/marsg6/carbonic-template-flutter.git
-[submodule "workspace/flutter/carbonic-template-flutter"]
-	path = workspace/flutter/carbonic-template-flutter
-	url = git@github.com:marsg6/carbonic-template-flutter.git
