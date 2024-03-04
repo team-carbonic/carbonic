@@ -1,3 +1,7 @@
 [submodule "workspace/flutter/template"]
 	path = workspace/flutter/template
 	url = https://github.com/marsg6/carbonic-template-flutter.git
+
+[submodule "workspace/flutter/portfolio/scandal"]
+	path = workspace/flutter/portfolio/scandal
+	url = https://github.com/woojin-g/scandal.git
