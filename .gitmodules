@@ -5,3 +5,7 @@
 [submodule "workspace/flutter/portfolio/scandal"]
 	path = workspace/flutter/portfolio/scandal
 	url = https://github.com/team-carbonic/scandal.git
+
+[submodule "workspace/flutter/package/korea_region_code"]
+	path = workspace/flutter/package/korea_region_code
+	url = https://github.com/team-carbonic/korea-region-code.git
