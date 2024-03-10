@@ -19,5 +19,5 @@ command:
 
 scripts:
   # 패키지 Publish 관련
-  validate: melos publish --scope="package/**" --verbose
-  upload: melos publish --scope="package/**" --no-dry-run --verbose
+  validate: melos publish --ignore="open_source_license" --yes
+  upload: melos publish --ignore="open_source_license" --no-dry-run --yes --verbose

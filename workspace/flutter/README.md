@@ -17,6 +17,14 @@
 
 ## 패키지 공유 (Publish)
 
+### 필수 작성 파일
+
+- README.md
+- CHANGELOG.md
+- LICENSE
+- pubspec.yaml
+  - description
+
 ### 로컬 환경에서 유효성 검사
 
 `melos validate`
