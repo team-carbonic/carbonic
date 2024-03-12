@@ -48,4 +48,4 @@ app.*.map.json
 /android/app/release
 
 # Melos
-pubspec_overrides.yaml
+**/pubspec_overrides.yaml
